@@ -32,3 +32,28 @@ func RegistrarUsuario(usuario domain.Usuario) (domain.Usuario, error) {
 
 	return usuario, resultado.Error
 }
+
+func Login(correo string, password string) (string, error) {
+
+	var usuario domain.Usuario
+
+	resultado := dao.DB.Where("correo = ?", correo).First(&usuario)
+
+	if resultado.Error != nil {
+		return "", errors.New("credenciales inválidas")
+	}
+
+	passwordCorrecta := utils.CheckPassword(password, usuario.Password)
+
+	if !passwordCorrecta {
+		return "", errors.New("credenciales inválidas")
+	}
+
+	token, err := utils.GenerarJWT(usuario.ID, usuario.Rol)
+
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
+}

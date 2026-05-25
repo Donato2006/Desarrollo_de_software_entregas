@@ -30,3 +30,31 @@ func Register(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, usuarioCreado)
 }
+
+func Login(c *gin.Context) {
+
+	var datosLogin struct {
+		Correo   string
+		Password string
+	}
+
+	if err := c.ShouldBindJSON(&datosLogin); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Datos inválidos",
+		})
+		return
+	}
+
+	token, err := services.Login(datosLogin.Correo, datosLogin.Password)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
+}

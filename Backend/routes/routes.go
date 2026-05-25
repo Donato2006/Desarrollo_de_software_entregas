@@ -19,4 +19,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.DELETE("/conciertos/:id", controllers.EliminarConcierto)
 
 	r.POST("/register", controllers.Register)
+
+	r.POST("/login", controllers.Login)
 }
