@@ -49,3 +49,32 @@ func ObtenerConciertoPorID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, concierto)
 }
+
+func ActualizarConcierto(c *gin.Context) {
+
+	id := c.Param("id")
+
+	var concierto domain.Concierto
+
+	resultado := database.DB.First(&concierto, id)
+
+	if resultado.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Concierto no encontrado",
+		})
+		return
+	}
+
+	var datosActualizados domain.Concierto
+
+	if err := c.ShouldBindJSON(&datosActualizados); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Datos inválidos",
+		})
+		return
+	}
+
+	database.DB.Model(&concierto).Updates(datosActualizados)
+
+	c.JSON(http.StatusOK, concierto)
+}

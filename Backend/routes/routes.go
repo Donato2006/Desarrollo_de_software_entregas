@@ -7,7 +7,12 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
+
 	r.GET("/conciertos", controllers.ObtenerConciertos)
+
 	r.POST("/conciertos", controllers.CrearConcierto)
+
 	r.GET("/conciertos/:id", controllers.ObtenerConciertoPorID)
+
+	r.PUT("/conciertos/:id", controllers.ActualizarConcierto)
 }
