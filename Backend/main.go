@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/database"
+	"backend/routes"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,9 +14,11 @@ func main() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"mensaje": "Backend funcionando y conectado a MySQL",
+			"mensaje": "Backend funcionando",
 		})
 	})
+
+	routes.SetupRoutes(r)
 
 	r.Run(":8080")
 }
