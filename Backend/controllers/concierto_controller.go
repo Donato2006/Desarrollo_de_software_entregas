@@ -78,3 +78,25 @@ func ActualizarConcierto(c *gin.Context) {
 
 	c.JSON(http.StatusOK, concierto)
 }
+
+func EliminarConcierto(c *gin.Context) {
+
+	id := c.Param("id")
+
+	var concierto domain.Concierto
+
+	resultado := database.DB.First(&concierto, id)
+
+	if resultado.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Concierto no encontrado",
+		})
+		return
+	}
+
+	database.DB.Delete(&concierto)
+
+	c.JSON(http.StatusOK, gin.H{
+		"mensaje": "Concierto eliminado correctamente",
+	})
+}

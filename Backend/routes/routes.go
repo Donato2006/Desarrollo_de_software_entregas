@@ -15,4 +15,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/conciertos/:id", controllers.ObtenerConciertoPorID)
 
 	r.PUT("/conciertos/:id", controllers.ActualizarConcierto)
+
+	r.DELETE("/conciertos/:id", controllers.EliminarConcierto)
 }
