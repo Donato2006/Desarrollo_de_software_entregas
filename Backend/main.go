@@ -1,7 +1,7 @@
 package main
 
 import (
-	"backend/database"
+	database "backend/dao"
 	"backend/routes"
 
 	"github.com/gin-gonic/gin"

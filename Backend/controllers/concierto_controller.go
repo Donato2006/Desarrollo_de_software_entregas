@@ -1,24 +1,27 @@
 package controllers
 
 import (
-	"backend/database"
 	"backend/domain"
+	"backend/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func ObtenerConciertos(c *gin.Context) {
+	conciertos, err := services.ObtenerTodosLosConciertos()
 
-	var conciertos []domain.Concierto
-
-	database.DB.Find(&conciertos)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error al obtener conciertos",
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, conciertos)
 }
 
 func CrearConcierto(c *gin.Context) {
-
 	var concierto domain.Concierto
 
 	if err := c.ShouldBindJSON(&concierto); err != nil {
@@ -28,19 +31,24 @@ func CrearConcierto(c *gin.Context) {
 		return
 	}
 
-	database.DB.Create(&concierto)
+	conciertoCreado, err := services.CrearConcierto(concierto)
 
-	c.JSON(http.StatusCreated, concierto)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error al crear concierto",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, conciertoCreado)
 }
 
 func ObtenerConciertoPorID(c *gin.Context) {
 	id := c.Param("id")
 
-	var concierto domain.Concierto
+	concierto, err := services.ObtenerConciertoPorID(id)
 
-	resultado := database.DB.First(&concierto, id)
-
-	if resultado.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "Concierto no encontrado",
 		})
@@ -51,19 +59,7 @@ func ObtenerConciertoPorID(c *gin.Context) {
 }
 
 func ActualizarConcierto(c *gin.Context) {
-
 	id := c.Param("id")
-
-	var concierto domain.Concierto
-
-	resultado := database.DB.First(&concierto, id)
-
-	if resultado.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Concierto no encontrado",
-		})
-		return
-	}
 
 	var datosActualizados domain.Concierto
 
@@ -74,27 +70,29 @@ func ActualizarConcierto(c *gin.Context) {
 		return
 	}
 
-	database.DB.Model(&concierto).Updates(datosActualizados)
+	conciertoActualizado, err := services.ActualizarConcierto(id, datosActualizados)
 
-	c.JSON(http.StatusOK, concierto)
-}
-
-func EliminarConcierto(c *gin.Context) {
-
-	id := c.Param("id")
-
-	var concierto domain.Concierto
-
-	resultado := database.DB.First(&concierto, id)
-
-	if resultado.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "Concierto no encontrado",
 		})
 		return
 	}
 
-	database.DB.Delete(&concierto)
+	c.JSON(http.StatusOK, conciertoActualizado)
+}
+
+func EliminarConcierto(c *gin.Context) {
+	id := c.Param("id")
+
+	err := services.EliminarConcierto(id)
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Concierto no encontrado",
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"mensaje": "Concierto eliminado correctamente",
