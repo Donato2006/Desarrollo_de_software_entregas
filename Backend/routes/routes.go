@@ -12,13 +12,13 @@ func SetupRoutes(r *gin.Engine) {
 	// GET /conciertos -> Devuelve la lista de todos los conciertos
 	r.GET("/conciertos", controllers.ObtenerConciertos)
 
-	r.POST("/conciertos", middleware.AuthMiddleware(), controllers.CrearConcierto)
+	r.POST("/conciertos", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.CrearConcierto)
 
 	r.GET("/conciertos/:id", controllers.ObtenerConciertoPorID)
 
-	r.PUT("/conciertos/:id", middleware.AuthMiddleware(), controllers.ActualizarConcierto)
+	r.PUT("/conciertos/:id", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.ActualizarConcierto)
 
-	r.DELETE("/conciertos/:id", middleware.AuthMiddleware(), controllers.EliminarConcierto)
+	r.DELETE("/conciertos/:id", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.EliminarConcierto)
 
 	r.POST("/register", controllers.Register)
 
@@ -29,4 +29,12 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/mis-entradas", middleware.AuthMiddleware(), controllers.MisEntradas)
 
 	r.DELETE("/entradas/:id", middleware.AuthMiddleware(), controllers.CancelarEntrada)
+
+	r.POST("/lista-espera", middleware.AuthMiddleware(), controllers.AnotarseListaEspera)
+
+	r.GET("/mis-listas-espera", middleware.AuthMiddleware(), controllers.MisListasEspera)
+
+	r.DELETE("/lista-espera/:id", middleware.AuthMiddleware(), controllers.SalirListaEspera)
+
+	r.GET("/lista-espera/:conciertoId", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.VerListaEsperaConcierto)
 }

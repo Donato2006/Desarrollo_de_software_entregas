@@ -52,3 +52,27 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func AdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		rol, existe := c.Get("rol")
+
+		if !existe {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "Rol no encontrado",
+			})
+			c.Abort()
+			return
+		}
+
+		if rol != "admin" {
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "No tenés permisos de administrador",
+			})
+			c.Abort()
+			return
+		}
+
+		c.Next()
+	}
+}
