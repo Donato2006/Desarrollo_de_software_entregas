@@ -28,4 +28,12 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/mis-entradas", middleware.AuthMiddleware(), controllers.MisEntradas)
 
 	r.DELETE("/entradas/:id", middleware.AuthMiddleware(), controllers.CancelarEntrada)
+
+	r.POST("/lista-espera", middleware.AuthMiddleware(), controllers.AnotarseListaEspera)
+
+	r.GET("/mis-listas-espera", middleware.AuthMiddleware(), controllers.MisListasEspera)
+
+	r.DELETE("/lista-espera/:id", middleware.AuthMiddleware(), controllers.SalirListaEspera)
+
+	r.GET("/lista-espera/:conciertoId", middleware.AuthMiddleware(), controllers.VerListaEsperaConcierto)
 }
