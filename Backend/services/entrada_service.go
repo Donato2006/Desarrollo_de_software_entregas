@@ -40,3 +40,15 @@ func ComprarEntrada(usuarioID uint, conciertoID uint) (domain.Entrada, error) {
 
 	return entrada, nil
 }
+
+func ObtenerEntradasUsuario(usuarioID uint) ([]domain.Entrada, error) {
+
+	var entradas []domain.Entrada
+
+	resultado := dao.DB.
+		Preload("Concierto").
+		Where("usuario_id = ?", usuarioID).
+		Find(&entradas)
+
+	return entradas, resultado.Error
+}

@@ -33,3 +33,21 @@ func ComprarEntrada(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, entrada)
 }
+
+func MisEntradas(c *gin.Context) {
+
+	usuarioIDFloat := c.GetFloat64("usuario_id")
+
+	usuarioID := uint(usuarioIDFloat)
+
+	entradas, err := services.ObtenerEntradasUsuario(usuarioID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error al obtener entradas",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, entradas)
+}
