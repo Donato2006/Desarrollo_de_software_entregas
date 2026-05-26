@@ -2,6 +2,7 @@ package domain
 
 import "time"
 
+// Concierto representa la entidad de un evento musical en el sistema
 type Concierto struct {
 	ID               uint      `gorm:"primaryKey"`
 	Nombre           string    `gorm:"not null"`

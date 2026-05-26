@@ -7,8 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// SetupRoutes configura las rutas REST de la API y las vincula con el motor de Gin
 func SetupRoutes(r *gin.Engine) {
-
+	// GET /conciertos -> Devuelve la lista de todos los conciertos
 	r.GET("/conciertos", controllers.ObtenerConciertos)
 
 	r.POST("/conciertos", middleware.AuthMiddleware(), controllers.CrearConcierto)

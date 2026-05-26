@@ -2,6 +2,7 @@ package domain
 
 import "time"
 
+// Entrada representa un ticket o boleto comprado por un usuario para un concierto
 type Entrada struct {
 	ID uint `gorm:"primaryKey"`
 
