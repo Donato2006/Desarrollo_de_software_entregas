@@ -3,12 +3,15 @@ package domain
 import "time"
 
 type Entrada struct {
-	ID          uint `gorm:"primaryKey"`
-	UsuarioID   uint
-	ConciertoID uint
-	Estado      string    `gorm:"not null"`
-	FechaCompra time.Time `gorm:"not null"`
+	ID uint `gorm:"primaryKey"`
 
+	UsuarioID uint `gorm:"not null"`
 	Usuario   Usuario
-	Concierto Concierto
+
+	ConciertoID uint `gorm:"not null"`
+	Concierto   Concierto
+
+	Estado string `gorm:"default:'activa'"`
+
+	FechaCompra time.Time `gorm:"autoCreateTime"`
 }
