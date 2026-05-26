@@ -26,4 +26,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.POST("/entradas", middleware.AuthMiddleware(), controllers.ComprarEntrada)
 
 	r.GET("/mis-entradas", middleware.AuthMiddleware(), controllers.MisEntradas)
+
+	r.DELETE("/entradas/:id", middleware.AuthMiddleware(), controllers.CancelarEntrada)
 }

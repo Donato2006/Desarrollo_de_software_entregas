@@ -52,3 +52,32 @@ func ObtenerEntradasUsuario(usuarioID uint) ([]domain.Entrada, error) {
 
 	return entradas, resultado.Error
 }
+
+func CancelarEntrada(usuarioID uint, entradaID string) error {
+	var entrada domain.Entrada
+
+	resultado := dao.DB.First(&entrada, entradaID)
+
+	if resultado.Error != nil {
+		return errors.New("entrada no encontrada")
+	}
+
+	if entrada.UsuarioID != usuarioID {
+		return errors.New("no podés cancelar una entrada que no es tuya")
+	}
+
+	if entrada.Estado == "cancelada" {
+		return errors.New("la entrada ya está cancelada")
+	}
+
+	entrada.Estado = "cancelada"
+	dao.DB.Save(&entrada)
+
+	var concierto domain.Concierto
+	dao.DB.First(&concierto, entrada.ConciertoID)
+
+	concierto.CuposDisponibles++
+	dao.DB.Save(&concierto)
+
+	return nil
+}

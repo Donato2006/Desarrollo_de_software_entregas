@@ -51,3 +51,23 @@ func MisEntradas(c *gin.Context) {
 
 	c.JSON(http.StatusOK, entradas)
 }
+
+func CancelarEntrada(c *gin.Context) {
+	id := c.Param("id")
+
+	usuarioIDFloat := c.GetFloat64("usuario_id")
+	usuarioID := uint(usuarioIDFloat)
+
+	err := services.CancelarEntrada(usuarioID, id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"mensaje": "Entrada cancelada correctamente",
+	})
+}
