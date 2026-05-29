@@ -47,3 +47,9 @@
 .login-box button:hover {
   background-color: #c40812;
 }
+
+.error {
+  color: red;
+  text-align: center;
+  margin: 0;
+}
