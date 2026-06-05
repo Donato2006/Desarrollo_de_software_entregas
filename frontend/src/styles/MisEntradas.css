@@ -1,0 +1,33 @@
+.mis-entradas-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.entradas-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.entrada-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancelar-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mensaje-exito {
+  color: green;
+}
+
+.mensaje-error {
+  color: red;
+}

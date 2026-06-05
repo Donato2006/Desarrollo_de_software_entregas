@@ -8,17 +8,23 @@ function Navbar({ busqueda, setBusqueda }) {
   const token = localStorage.getItem("token");
 
   const cerrarSesion = () => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("rol");
 
     navigate("/");
+
     window.location.reload();
+
   };
 
   return (
     <nav className="navbar">
 
-      <h2 className="navbar-logo">
+      <h2
+        className="navbar-logo"
+        onClick={() => navigate("/")}
+      >
         Ticket Conciertos
       </h2>
 
@@ -31,19 +37,34 @@ function Navbar({ busqueda, setBusqueda }) {
       />
 
       {!token ? (
+
         <button
           className="navbar-button"
           onClick={() => navigate("/login")}
         >
           Iniciar sesión
         </button>
+
       ) : (
-        <button
-          className="navbar-button"
-          onClick={cerrarSesion}
-        >
-          Cerrar sesión
-        </button>
+
+        <div className="navbar-actions">
+
+          <button
+            className="navbar-button"
+            onClick={() => navigate("/mis-entradas")}
+          >
+            Mis Entradas
+          </button>
+
+          <button
+            className="navbar-button"
+            onClick={cerrarSesion}
+          >
+            Cerrar sesión
+          </button>
+
+        </div>
+
       )}
 
     </nav>
