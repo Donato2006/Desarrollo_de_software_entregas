@@ -1,0 +1,23 @@
+.home-container {
+  min-height: 100vh;
+  background-color: #f5f6fa;
+  padding-bottom: 40px;
+}
+
+.home-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.home-title {
+  margin-bottom: 25px;
+  font-size: 32px;
+  color: #333;
+}
+
+.conciertos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}

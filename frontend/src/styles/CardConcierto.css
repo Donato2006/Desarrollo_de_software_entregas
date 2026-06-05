@@ -1,0 +1,52 @@
+.card-concierto {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+.card-image {
+  height: 150px;
+  background: linear-gradient(135deg, #111827, #2563eb);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.card-image span {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.card-body {
+  padding: 18px;
+}
+
+.card-body h2 {
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.card-body p {
+  margin: 8px 0;
+  color: #374151;
+}
+
+.card-button {
+  margin-top: 16px;
+  width: 100%;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 11px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.card-button:hover {
+  background-color: #1d4ed8;
+}
