@@ -34,6 +34,14 @@ function DetalleConcierto() {
 
   }, [id]);
 
+  const recargarConcierto = async () => {
+
+    const response = await api.get(`/conciertos/${id}`);
+
+    setConcierto(response.data);
+
+  };
+
   const comprarEntrada = async () => {
 
     try {
@@ -55,9 +63,7 @@ function DetalleConcierto() {
       setError("");
       setMensaje("Entrada comprada correctamente");
 
-      const response = await api.get(`/conciertos/${id}`);
-
-      setConcierto(response.data);
+      await recargarConcierto();
 
     } catch (err) {
 
@@ -66,6 +72,40 @@ function DetalleConcierto() {
       setError(
         err.response?.data?.error ||
         "No se pudo comprar la entrada"
+      );
+
+    }
+
+  };
+
+  const unirseListaEspera = async () => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+
+      await api.post(
+        "/lista-espera",
+        {
+          ConciertoID: Number(id),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setError("");
+      setMensaje("Te anotaste correctamente en la lista de espera");
+
+    } catch (err) {
+
+      setMensaje("");
+
+      setError(
+        err.response?.data?.error ||
+        "No se pudo ingresar a la lista de espera"
       );
 
     }
@@ -106,20 +146,16 @@ function DetalleConcierto() {
           {concierto.Nombre}
         </h1>
 
-        <p>
-          📍 {concierto.Lugar}
-        </p>
+        <p>📍 {concierto.Lugar}</p>
+
+        <p>📅 {fecha}</p>
+
+        <p>🕘 {hora}</p>
 
         <p>
-          📅 {fecha}
-        </p>
-
-        <p>
-          🕘 {hora}
-        </p>
-
-        <p>
-          🎫 Cupos disponibles: {concierto.CuposDisponibles}
+          🎫 Cupos disponibles:
+          {" "}
+          {concierto.CuposDisponibles}
         </p>
 
         {mensaje && (
@@ -143,11 +179,14 @@ function DetalleConcierto() {
             Comprar Entrada
           </button>
 
-          <button
-            className="detalle-boton"
-          >
-            Unirse a Lista de Espera
-          </button>
+          {concierto.CuposDisponibles === 0 && (
+            <button
+              className="detalle-boton"
+              onClick={unirseListaEspera}
+            >
+              Unirse a Lista de Espera
+            </button>
+          )}
 
         </div>
 
