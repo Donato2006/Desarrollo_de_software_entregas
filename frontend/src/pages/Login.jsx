@@ -22,7 +22,7 @@ function Login() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("rol", response.data.rol);
 
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError("Correo o contraseña incorrectos");
     }
