@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import DetalleConcierto from "./pages/DetalleConcierto";
 import MisEntradas from "./pages/MisEntradas";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
         <Route
           path="/mis-entradas"
           element={<MisEntradas />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
         />
 
       </Routes>

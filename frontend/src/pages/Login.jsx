@@ -68,6 +68,14 @@ function Login() {
             Ingresar
           </button>
 
+          <p className="register-link">
+            ¿No tenés cuenta?
+            {" "}
+            <span onClick={() => navigate("/register")}>
+              Registrate
+            </span>
+          </p>
+
         </form>
 
       </div>
