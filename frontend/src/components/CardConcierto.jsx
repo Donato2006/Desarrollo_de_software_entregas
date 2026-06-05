@@ -25,10 +25,7 @@ function CardConcierto({ concierto }) {
       return;
     }
 
-    alert(`Detalle del concierto: ${concierto.Nombre}`);
-
-    // Más adelante:
-    // navigate(`/conciertos/${concierto.ID}`);
+    navigate(`/conciertos/${concierto.ID}`);
   };
 
   return (
