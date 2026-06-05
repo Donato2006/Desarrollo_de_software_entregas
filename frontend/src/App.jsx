@@ -1,18 +1,18 @@
-<<<<<<< HEAD
-import Home from "./pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div>
-      <Home />
-    </div>
-  );
-=======
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
-  return <Login />;
->>>>>>> 94d7605619bbb0b3d5cdb1839265c18d00e14741
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
