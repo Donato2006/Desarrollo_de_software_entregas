@@ -1,0 +1,33 @@
+.listas-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.listas-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.lista-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.salir-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mensaje-exito {
+  color: green;
+}
+
+.mensaje-error {
+  color: red;
+}

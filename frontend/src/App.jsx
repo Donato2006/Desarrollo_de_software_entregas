@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import DetalleConcierto from "./pages/DetalleConcierto";
 import MisEntradas from "./pages/MisEntradas";
 import Register from "./pages/Register";
+import MisListasEspera from "./pages/MisListasEspera";
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
         <Route
           path="/register"
           element={<Register />}
+        />
+
+        <Route
+          path="/mis-listas-espera"
+          element={<MisListasEspera />}
         />
 
       </Routes>

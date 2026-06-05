@@ -55,7 +55,12 @@ function Navbar({ busqueda, setBusqueda }) {
           >
             Mis Entradas
           </button>
-
+          <button
+            className="navbar-button"
+            onClick={() => navigate("/mis-listas-espera")}
+          >
+            Mis Listas
+          </button>
           <button
             className="navbar-button"
             onClick={cerrarSesion}
