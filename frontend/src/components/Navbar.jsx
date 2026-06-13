@@ -7,6 +7,8 @@ function Navbar({ busqueda, setBusqueda }) {
 
   const token = localStorage.getItem("token");
 
+  const rol = localStorage.getItem("rol");
+
   const cerrarSesion = () => {
 
     localStorage.removeItem("token");
@@ -49,6 +51,15 @@ function Navbar({ busqueda, setBusqueda }) {
 
         <div className="navbar-actions">
 
+        {rol === "admin" && (
+
+        <button
+          className="navbar-button"
+          onClick={() => navigate("/admin")}
+        >
+          Admin
+        </button>
+        )}
           <button
             className="navbar-button"
             onClick={() => navigate("/mis-entradas")}

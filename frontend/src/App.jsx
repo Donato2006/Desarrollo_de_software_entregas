@@ -6,6 +6,8 @@ import DetalleConcierto from "./pages/DetalleConcierto";
 import MisEntradas from "./pages/MisEntradas";
 import Register from "./pages/Register";
 import MisListasEspera from "./pages/MisListasEspera";
+import Admin from "./pages/Admin";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -41,6 +43,14 @@ function App() {
         <Route
           path="/mis-listas-espera"
           element={<MisListasEspera />}
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <Admin />
+            </ProtectedAdminRoute>
+          }
         />
 
       </Routes>

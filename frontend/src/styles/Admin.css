@@ -1,0 +1,31 @@
+.admin-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.admin-form {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.admin-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-success {
+  color: green;
+}
+
+.admin-error {
+  color: red;
+}
