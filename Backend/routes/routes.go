@@ -37,4 +37,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.DELETE("/lista-espera/:id", middleware.AuthMiddleware(), controllers.SalirListaEspera)
 
 	r.GET("/lista-espera/:conciertoId", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.VerListaEsperaConcierto)
+
+	r.PUT("/entradas/:id/transferir", middleware.AuthMiddleware(), controllers.TransferirEntrada)
 }
