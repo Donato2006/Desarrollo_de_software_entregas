@@ -71,3 +71,34 @@ func CancelarEntrada(c *gin.Context) {
 		"mensaje": "Entrada cancelada correctamente",
 	})
 }
+
+func TransferirEntrada(c *gin.Context) {
+	id := c.Param("id")
+
+	var datos struct {
+		CorreoDestino string
+	}
+
+	if err := c.ShouldBindJSON(&datos); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Datos inválidos",
+		})
+		return
+	}
+
+	usuarioIDFloat := c.GetFloat64("usuario_id")
+	usuarioID := uint(usuarioIDFloat)
+
+	err := services.TransferirEntrada(usuarioID, id, datos.CorreoDestino)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"mensaje": "Entrada transferida correctamente",
+	})
+}

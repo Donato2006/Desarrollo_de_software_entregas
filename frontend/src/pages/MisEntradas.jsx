@@ -3,7 +3,9 @@ import api from "../services/api";
 import "../styles/MisEntradas.css";
 
 function MisEntradas() {
-
+  
+  const [entradaTransferir, setEntradaTransferir] = useState(null);
+  const [correoDestino, setCorreoDestino] = useState("");
   const [entradas, setEntradas] = useState([]);
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -80,75 +82,104 @@ function MisEntradas() {
 
     }
 
-  };
+  }; 
 
-  return (
-    <div className="mis-entradas-container">
+  const transferirEntrada = async () => {
+  try {
+    const token = localStorage.getItem("token");
 
-      <h1>Mis Entradas</h1>
+    await api.put(
+      `/entradas/${entradaTransferir}/transferir`,
+      {
+        CorreoDestino: correoDestino,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      {mensaje && (
-        <p className="mensaje-exito">
-          {mensaje}
-        </p>
-      )}
+    setMensaje("Entrada transferida correctamente");
+    setError("");
+    setEntradaTransferir(null);
+    setCorreoDestino("");
 
-      {error && (
-        <p className="mensaje-error">
-          {error}
-        </p>
-      )}
+    await cargarEntradas();
+  } catch (err) {
+    setMensaje("");
+    setError(
+      err.response?.data?.error ||
+        "No se pudo transferir la entrada"
+    );
+  }
+ };
 
-      {entradas.length === 0 ? (
+ return (
+  <div className="mis-entradas-container">
+    <h1>Mis Entradas</h1>
 
-        <p>No tenés entradas compradas</p>
+    {mensaje && <p className="mensaje-exito">{mensaje}</p>}
 
-      ) : (
+    {error && <p className="mensaje-error">{error}</p>}
 
-        <div className="entradas-grid">
+    {entradas.length === 0 ? (
+      <p>No tenés entradas compradas</p>
+    ) : (
+      <div className="entradas-grid">
+        {entradas.map((entrada) => (
+          <div key={entrada.ID} className="entrada-card">
+            <h3>Entrada #{entrada.ID}</h3>
 
-          {entradas.map((entrada) => (
+            <p>Estado: {entrada.Estado}</p>
+            <p>Usuario ID: {entrada.UsuarioID}</p>
+            <p>Concierto ID: {entrada.ConciertoID}</p>
 
-            <div
-              key={entrada.ID}
-              className="entrada-card"
+            <button
+              className="cancelar-btn"
+              onClick={() => cancelarEntrada(entrada.ID)}
             >
+              Cancelar Entrada
+            </button>
 
-              <h3>
-                Entrada #{entrada.ID}
-              </h3>
-
-              <p>
-                Estado: {entrada.Estado}
-              </p>
-
-              <p>
-                Usuario ID: {entrada.UsuarioID}
-              </p>
-
-              <p>
-                Concierto ID: {entrada.ConciertoID}
-              </p>
-
+            {entrada.Estado === "activa" && (
               <button
-                className="cancelar-btn"
-                onClick={() =>
-                  cancelarEntrada(entrada.ID)
-                }
+                className="transferir-btn"
+                onClick={() => setEntradaTransferir(entrada.ID)}
               >
-                Cancelar Entrada
+                Transferir Entrada
               </button>
+            )}
 
-            </div>
+            {entradaTransferir === entrada.ID && (
+              <div className="transferir-box">
+                <input
+                  type="email"
+                  placeholder="Correo del destinatario"
+                  value={correoDestino}
+                  onChange={(e) => setCorreoDestino(e.target.value)}
+                />
 
-          ))}
+                <button onClick={transferirEntrada}>
+                  Confirmar transferencia
+                </button>
 
-        </div>
-
-      )}
-
-    </div>
-  );
+                <button
+                  onClick={() => {
+                    setEntradaTransferir(null);
+                    setCorreoDestino("");
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+ );
 }
 
 export default MisEntradas;

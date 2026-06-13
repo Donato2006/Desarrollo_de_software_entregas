@@ -116,3 +116,39 @@ func CancelarEntrada(usuarioID uint, entradaID string) error {
 
 	return nil
 }
+
+func TransferirEntrada(usuarioID uint, entradaID string, correoDestino string) error {
+	var entrada domain.Entrada
+
+	resultado := dao.DB.First(&entrada, entradaID)
+
+	if resultado.Error != nil {
+		return errors.New("entrada no encontrada")
+	}
+
+	if entrada.UsuarioID != usuarioID {
+		return errors.New("no podés transferir una entrada que no es tuya")
+	}
+
+	if entrada.Estado != "activa" {
+		return errors.New("solo se pueden transferir entradas activas")
+	}
+
+	var usuarioDestino domain.Usuario
+
+	resultado = dao.DB.Where("correo = ?", correoDestino).First(&usuarioDestino)
+
+	if resultado.Error != nil {
+		return errors.New("usuario destino no encontrado")
+	}
+
+	if usuarioDestino.ID == usuarioID {
+		return errors.New("no podés transferirte la entrada a vos mismo")
+	}
+
+	entrada.UsuarioID = usuarioDestino.ID
+
+	dao.DB.Save(&entrada)
+
+	return nil
+}
