@@ -3,6 +3,7 @@ package services
 import (
 	"backend/dao"
 	"backend/domain"
+	"backend/utils"
 	"errors"
 	"time"
 )
@@ -112,6 +113,18 @@ func CancelarEntrada(usuarioID uint, entradaID string) error {
 
 		dao.DB.Save(&siguiente)
 
+		var usuario domain.Usuario
+
+		dao.DB.First(
+			&usuario,
+			siguiente.UsuarioID,
+		)
+
+		utils.EnviarCorreo(
+			usuario.Correo,
+			concierto.Nombre,
+		)
+
 		concierto.CuposDisponibles--
 
 		dao.DB.Save(&concierto)
@@ -140,6 +153,7 @@ func CancelarEntrada(usuarioID uint, entradaID string) error {
 }
 
 func TransferirEntrada(usuarioID uint, entradaID string, correoDestino string) error {
+
 	var entrada domain.Entrada
 
 	resultado := dao.DB.First(&entrada, entradaID)
@@ -158,7 +172,9 @@ func TransferirEntrada(usuarioID uint, entradaID string, correoDestino string) e
 
 	var usuarioDestino domain.Usuario
 
-	resultado = dao.DB.Where("correo = ?", correoDestino).First(&usuarioDestino)
+	resultado = dao.DB.
+		Where("correo = ?", correoDestino).
+		First(&usuarioDestino)
 
 	if resultado.Error != nil {
 		return errors.New("usuario destino no encontrado")
