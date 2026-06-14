@@ -53,14 +53,22 @@ func ActualizarConcierto(id string, datos domain.Concierto) (domain.Concierto, e
 func EliminarConcierto(id string) error {
 
 	var concierto domain.Concierto
-	// 1. Verifica si el concierto existe antes de intentar borrarlo
+
 	resultado := dao.DB.First(&concierto, id)
 
 	if resultado.Error != nil {
-		return resultado.Error // Si no existe, devuelve el error (como ErrRecordNotFound)
+		return resultado.Error
 	}
-	// 2. Si existe, lo remueve de la base de datos
-	dao.DB.Delete(&concierto)
 
-	return nil
+	dao.DB.
+		Where("concierto_id = ?", concierto.ID).
+		Delete(&domain.Entrada{})
+
+	dao.DB.
+		Where("concierto_id = ?", concierto.ID).
+		Delete(&domain.ListaEspera{})
+
+	resultado = dao.DB.Delete(&concierto)
+
+	return resultado.Error
 }

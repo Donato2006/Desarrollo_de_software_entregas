@@ -48,7 +48,11 @@ func ObtenerEntradasUsuario(usuarioID uint) ([]domain.Entrada, error) {
 
 	resultado := dao.DB.
 		Preload("Concierto").
-		Where("usuario_id = ?", usuarioID).
+		Where(
+			"usuario_id = ? AND estado = ?",
+			usuarioID,
+			"activa",
+		).
 		Find(&entradas)
 
 	return entradas, resultado.Error
