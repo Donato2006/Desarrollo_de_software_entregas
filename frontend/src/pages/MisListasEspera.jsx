@@ -33,46 +33,46 @@ function MisListasEspera() {
 
   };
 
-useEffect(() => {
+  useEffect(() => {
 
-  let activo = true;
+    let activo = true;
 
-  const obtenerListas = async () => {
+    const obtenerListas = async () => {
 
-    try {
+      try {
 
-      const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-      const response = await api.get(
-        "/mis-listas-espera",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await api.get(
+          "/mis-listas-espera",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (activo) {
+          setListas(response.data);
         }
-      );
 
-      if (activo) {
-        setListas(response.data);
+      } catch {
+
+        if (activo) {
+          setError("No se pudieron cargar las listas de espera");
+        }
+
       }
 
-    } catch {
+    };
 
-      if (activo) {
-        setError("No se pudieron cargar las listas de espera");
-      }
+    obtenerListas();
 
-    }
+    return () => {
+      activo = false;
+    };
 
-  };
-
-  obtenerListas();
-
-  return () => {
-    activo = false;
-  };
-
-}, []);
+  }, []);
 
   const salirLista = async (id) => {
 
@@ -154,10 +154,32 @@ useEffect(() => {
               </p>
 
               <p>
+
                 Estado:
+
                 {" "}
-                {lista.Estado}
+
+                {lista.Estado === "esperando"
+                  ? "⏳ Esperando"
+                  : "✅ Entrada asignada"}
+
               </p>
+
+              {lista.FechaNotificacion && (
+
+                <p>
+
+                  📅 Fecha de asignación:
+
+                  {" "}
+
+                  {new Date(
+                    lista.FechaNotificacion
+                  ).toLocaleString("es-AR")}
+
+                </p>
+
+              )}
 
               <button
                 className="salir-btn"

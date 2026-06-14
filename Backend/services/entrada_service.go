@@ -54,6 +54,7 @@ func ObtenerEntradasUsuario(usuarioID uint) ([]domain.Entrada, error) {
 }
 
 func CancelarEntrada(usuarioID uint, entradaID string) error {
+
 	var entrada domain.Entrada
 
 	resultado := dao.DB.First(&entrada, entradaID)
@@ -71,22 +72,30 @@ func CancelarEntrada(usuarioID uint, entradaID string) error {
 	}
 
 	entrada.Estado = "cancelada"
+
 	dao.DB.Save(&entrada)
 
 	var concierto domain.Concierto
+
 	dao.DB.First(&concierto, entrada.ConciertoID)
 
 	concierto.CuposDisponibles++
+
 	dao.DB.Save(&concierto)
 
 	var siguiente domain.ListaEspera
 
 	resultadoLista := dao.DB.
-		Where("concierto_id = ? AND estado = ?", concierto.ID, "esperando").
+		Where(
+			"concierto_id = ? AND estado = ?",
+			concierto.ID,
+			"esperando",
+		).
 		Order("posicion_cola asc").
 		First(&siguiente)
 
 	if resultadoLista.Error == nil {
+
 		nuevaEntrada := domain.Entrada{
 			UsuarioID:   siguiente.UsuarioID,
 			ConciertoID: concierto.ID,
@@ -96,21 +105,34 @@ func CancelarEntrada(usuarioID uint, entradaID string) error {
 
 		dao.DB.Create(&nuevaEntrada)
 
+		ahora := time.Now()
+
 		siguiente.Estado = "asignado"
+		siguiente.FechaNotificacion = &ahora
+
 		dao.DB.Save(&siguiente)
 
 		concierto.CuposDisponibles--
+
 		dao.DB.Save(&concierto)
 
 		var listasPosteriores []domain.ListaEspera
 
 		dao.DB.
-			Where("concierto_id = ? AND posicion_cola > ? AND estado = ?", concierto.ID, siguiente.PosicionCola, "esperando").
+			Where(
+				"concierto_id = ? AND posicion_cola > ? AND estado = ?",
+				concierto.ID,
+				siguiente.PosicionCola,
+				"esperando",
+			).
 			Find(&listasPosteriores)
 
 		for _, item := range listasPosteriores {
+
 			item.PosicionCola--
+
 			dao.DB.Save(&item)
+
 		}
 	}
 
