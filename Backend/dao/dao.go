@@ -2,6 +2,7 @@ package dao
 
 import (
 	"backend/domain"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,8 +13,12 @@ var DB *gorm.DB
 
 // Connect inicializa la conexión a MySQL y realiza la migración de las tablas
 func Connect() {
-	// DSN (Data Source Name): Contiene las credenciales y configuración de la base de datos
-	dsn := "root:12345@tcp(127.0.0.1:3306)/conciertos_db?charset=utf8mb4&parseTime=True&loc=Local"
+
+	dsn := os.Getenv("DB_DSN")
+
+	if dsn == "" {
+		dsn = "root:12345@tcp(127.0.0.1:3306)/conciertos_db?charset=utf8mb4&parseTime=True&loc=Local"
+	}
 	// Intenta abrir la conexión con el driver de MySQL y la configuración por defecto de GORM
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	// Si la conexión falla, detiene la ejecución del programa de inmediato
