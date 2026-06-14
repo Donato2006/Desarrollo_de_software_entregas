@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/Admin.css";
 
 function Admin() {
+  const navigate = useNavigate();
 
   const rol = localStorage.getItem("rol");
   const token = localStorage.getItem("token");
@@ -237,6 +238,13 @@ function Admin() {
     <div className="admin-container">
 
       <h1>Panel Administrador</h1>
+
+      <button
+        className="admin-report-btn"
+        onClick={() => navigate("/reporte-ocupacion")}
+      >
+        Ver Reporte de Ocupación
+      </button>
 
       {mensaje && (
         <p className="admin-success">

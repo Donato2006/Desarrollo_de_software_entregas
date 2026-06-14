@@ -39,4 +39,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/lista-espera/:conciertoId", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.VerListaEsperaConcierto)
 
 	r.PUT("/entradas/:id/transferir", middleware.AuthMiddleware(), controllers.TransferirEntrada)
+
+	r.GET("/reporte-ocupacion", middleware.AuthMiddleware(), middleware.AdminMiddleware(), controllers.ReporteOcupacion)
 }

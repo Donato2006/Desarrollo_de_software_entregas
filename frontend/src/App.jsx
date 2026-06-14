@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import MisListasEspera from "./pages/MisListasEspera";
 import Admin from "./pages/Admin";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import ReporteOcupacion from "./pages/ReporteOcupacion";
 
 function App() {
   return (
@@ -51,6 +52,11 @@ function App() {
               <Admin />
             </ProtectedAdminRoute>
           }
+        />
+
+        <Route
+          path="/reporte-ocupacion"
+          element={<ReporteOcupacion />}
         />
 
       </Routes>
