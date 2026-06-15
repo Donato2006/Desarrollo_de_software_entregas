@@ -149,20 +149,25 @@ Cuando un concierto se encuentra agotado:
 /
 ├── Backend
 │   ├── controllers
-│   ├── services
 │   ├── dao
 │   ├── domain
 │   ├── middleware
 │   ├── routes
+│   ├── services
 │   ├── utils
 │   └── main.go
 │
 ├── frontend
+│   ├── node_modules
+│   ├── public
 │   ├── src
-│   │   ├── pages
+│   │   ├── assets
 │   │   ├── components
+│   │   ├── pages
 │   │   ├── services
-│   │   └── styles
+│   │   ├── styles
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │
 ├── docker-compose.yml
 └── README.md
