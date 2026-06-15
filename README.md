@@ -341,6 +341,10 @@ go tool cover -html=coverage.out
 
 Esto abrirá un informe visual indicando qué líneas del código fueron cubiertas por los tests.
 
+## Cobertura Alcanzada
+
+Cobertura total del backend: 80.3%
+
 # Estado del Proyecto
 
 Proyecto desarrollado para el Práctico Integrador de Desarrollo de Software 2026.
