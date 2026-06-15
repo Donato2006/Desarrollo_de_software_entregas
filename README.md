@@ -307,6 +307,40 @@ Se utilizaron Docker y Docker Compose para garantizar que todo el equipo pueda e
 
 ---
 
+# Testing
+
+Para ejecutar todos los tests del backend:
+
+```bash
+go test ./...
+```
+
+Para generar un reporte de cobertura:
+
+```bash
+go test ./... -coverprofile=coverage.out
+```
+
+Para visualizar el porcentaje de cobertura por paquete:
+
+```bash
+go tool cover -func=coverage.out
+```
+
+Ejemplo de salida:
+
+backend/controllers     coverage: 85.7% of statements
+backend/services        coverage: 91.2% of statements
+total:                  (statements) 88.4%
+
+Para generar un reporte HTML:
+
+```bash
+go tool cover -html=coverage.out
+```
+
+Esto abrirá un informe visual indicando qué líneas del código fueron cubiertas por los tests.
+
 # Estado del Proyecto
 
 Proyecto desarrollado para el Práctico Integrador de Desarrollo de Software 2026.
