@@ -1,0 +1,28 @@
+  "Nombre": "Administrador",
+  "Correo": "admin@admin.com",
+  "Password": "123456",
+  "Rol": "admin"
+
+
+hola@hola.hola
+hola
+
+olaffalon@gmail.com
+olaffalon
+
+
+
+Gmail: ticketprueba0@gmail.com
+Nombre: ticket
+Apellido: -
+Contraseña: %1234554321&
+Fecha de nac: 1/1/2000
+Género: Hombre
+
+Contraseña de la aplicación (Gmail)
+jufc vzlm ufrw pccg
+
+$env:MAIL_USER="ticketprueba0@gmail.com"
+$env:MAIL_PASSWORD="nvaj slsg mpaa pmhd"
+
+go run .

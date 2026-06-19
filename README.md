@@ -318,13 +318,13 @@ go test ./...
 Para generar un reporte de cobertura:
 
 ```bash
-go test ./... -coverprofile=coverage.out
+go test ./... -coverprofile=coverage
 ```
 
 Para visualizar el porcentaje de cobertura por paquete:
 
 ```bash
-go tool cover -func=coverage.out
+go tool cover -func=coverage
 ```
 
 Ejemplo de salida:
@@ -336,7 +336,7 @@ total:                  (statements) 88.4%
 Para generar un reporte HTML:
 
 ```bash
-go tool cover -html=coverage.out
+go tool cover -html=coverage
 ```
 
 Esto abrirá un informe visual indicando qué líneas del código fueron cubiertas por los tests.
