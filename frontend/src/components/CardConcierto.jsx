@@ -18,14 +18,8 @@ function CardConcierto({ concierto }) {
 
   const manejarDetalle = () => {
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     navigate(`/conciertos/${concierto.ID}`);
+
   };
 
   return (

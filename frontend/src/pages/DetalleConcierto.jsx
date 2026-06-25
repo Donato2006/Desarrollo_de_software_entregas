@@ -12,6 +12,8 @@ function DetalleConcierto() {
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
 
     const cargarConcierto = async () => {
@@ -46,8 +48,6 @@ function DetalleConcierto() {
 
     try {
 
-      const token = localStorage.getItem("token");
-
       await api.post(
         "/entradas",
         {
@@ -81,8 +81,6 @@ function DetalleConcierto() {
   const unirseListaEspera = async () => {
 
     try {
-
-      const token = localStorage.getItem("token");
 
       await api.post(
         "/lista-espera",
@@ -170,25 +168,33 @@ function DetalleConcierto() {
           </p>
         )}
 
-        <div className="detalle-botones">
+        {!token && (
+          <p>
+            Iniciá sesión para comprar entradas o unirte a la lista de espera.
+          </p>
+        )}
 
-          <button
-            className="detalle-boton"
-            onClick={comprarEntrada}
-          >
-            Comprar Entrada
-          </button>
+        {token && (
+          <div className="detalle-botones">
 
-          {concierto.CuposDisponibles === 0 && (
             <button
               className="detalle-boton"
-              onClick={unirseListaEspera}
+              onClick={comprarEntrada}
             >
-              Unirse a Lista de Espera
+              Comprar Entrada
             </button>
-          )}
 
-        </div>
+            {concierto.CuposDisponibles === 0 && (
+              <button
+                className="detalle-boton"
+                onClick={unirseListaEspera}
+              >
+                Unirse a Lista de Espera
+              </button>
+            )}
+
+          </div>
+        )}
 
       </div>
 

@@ -26,6 +26,7 @@
 }
 
 .card-body h2 {
+  color: black;
   margin-bottom: 12px;
   font-size: 22px;
 }
